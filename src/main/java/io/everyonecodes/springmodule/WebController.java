@@ -52,4 +52,15 @@ public class WebController {
         service.delete(id);
         return index();
     }
+    @GetMapping("/editReview/{id}")
+    String editReview(@PathVariable long id, Model model) {
+        model.addAttribute("review", service.getOne(id));
+        return "editReview";
+    }
+    @PostMapping("/editReview/{id}")
+    ModelAndView editReview(@PathVariable long id, @ModelAttribute Review review){
+        review.setPublishedDate(LocalDateTime.now());
+        service.change(id, review);
+        return index();
+    }
 }

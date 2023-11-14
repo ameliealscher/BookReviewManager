@@ -1,0 +1,8 @@
+<div th:fragment="editingField">
+
+  <form action="#" th:action="@{'/editReview/' + ${id}}" th:object="${review}" method="post">
+    <p>Content: <input type="text" th:field="*{content}" /></p>
+    <p>Score: <input type="text" th:field="*{score}" /></p>
+    <p><input type="submit" value="submit" /> <a href ="/"><button>cancel</button></a></p>
+  </form>
+</div>

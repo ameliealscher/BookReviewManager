@@ -1,5 +1,4 @@
 <div th:fragment="writingField">
-    <h2>write a review</h2>
 
     <form action="#" th:action="@{/writeReview}" th:object="${review}" method="post">
         <p>Content: <input type="text" th:field="*{content}" /></p>
