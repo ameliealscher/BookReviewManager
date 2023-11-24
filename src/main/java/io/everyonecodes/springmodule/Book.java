@@ -1,21 +1,73 @@
 package io.everyonecodes.springmodule;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Data
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 public class Book {
+    private static long nextId = 1;
     @Id
     @GeneratedValue
     private long id;
+
     private String title;
-    private String content;
-//    private List<Review> reviews;
+
+    private List<String> authors;
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    private List<Review> reviews = new ArrayList<>();
+
+    public Book(String title, List<String> authors, List<Review> reviews) {
+        this.id = generateNextId();
+        this.title = title;
+        this.authors = authors;
+        this.reviews = reviews;
+    }
+    private static synchronized Long generateNextId() {
+        return nextId++;
+    }
+
+    public static long getNextId() {
+        return nextId;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public List<String> getAuthors() {
+        return authors;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public static void setNextId(long nextId) {
+        Book.nextId = nextId;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAuthors(List<String> authors) {
+        this.authors = authors;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
 }

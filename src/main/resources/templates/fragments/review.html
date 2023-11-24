@@ -1,5 +1,7 @@
 <div th:fragment="review">
+  <a th:href="@{/review/{id}(id = ${review.id})}"><button>
   <h2 th:text="${review.score}"></h2>
-<p th:text="${review.content}"></p>
+  <p th:text="${review.content}"></p>
   <p th:text="${review.id}"></p>
+  </button></a>
 </div>

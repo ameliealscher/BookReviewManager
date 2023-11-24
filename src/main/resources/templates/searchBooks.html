@@ -2,16 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Title</title>
 </head>
 <body>
-
 <div th:include="fragments/homeButton.html"></div>
-
-<h2>write a review</h2>
-
-<div th:include="fragments/writingField.html"></div>
-
+<h2>books</h2>
+<div th:each="book: ${books}" th:include="fragments/book.html"></div>
 </body>
 </html>

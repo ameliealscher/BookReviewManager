@@ -1,0 +1,7 @@
+<div th:fragment="book">
+  <a th:href="@{/book/{title}(title=${book.title})}">
+    <button>
+    <h2 th:text="${book.title}"></h2>
+    <p th:text="${book.authors}"></p>
+  </button></a>
+</div>
