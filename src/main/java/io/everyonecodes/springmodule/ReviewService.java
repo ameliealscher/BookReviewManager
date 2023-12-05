@@ -1,6 +1,5 @@
 package io.everyonecodes.springmodule;
 
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,6 +36,7 @@ public class ReviewService {
         if (existingReview.isPresent()) {
             Review reviewToUpdate = existingReview.get();
             reviewToUpdate.setContent(review.getContent());
+            reviewToUpdate.setScore(review.getScore());
             return repository.save(reviewToUpdate);
         } else {
             return repository.save(review);

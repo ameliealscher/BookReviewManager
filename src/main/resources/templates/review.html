@@ -6,25 +6,34 @@
     <title>Document</title>
 
     <link rel="stylesheet" href="/css/stylesheet.css">
-
-    <script src="js/code.js"></script>
-
 </head>
 <body>
 
 <div th:include="fragments/homeButton.html"></div>
 
-<h1>review details</h1>
+<h1 class="font">review details</h1>
 
-<h2 th:text="${review.score}"></h2>
-<p th:text="${review.content}"></p>
-<p th:text="${review.id}"></p>
+<h2 class="font"><strong>Score:</strong>
+    <span th:each="starNumber : ${#numbers.sequence(1, 5)}">
+        <span th:if="${score >= starNumber}" class="yellow-star">&#9733;</span>
+        <span th:unless="${score >= starNumber}" class="grey-star">&#9733;</span>
+    </span>
+</h2>
 
-<form th:method="delete">
-    <p class="submit"><input type="submit" value="Delete"></p>
-</form>
+<h2 class="font"><strong>Content:<br/></strong></h2>
+<div class="square-container">
+    <p class="bigger-font"><span th:text="${review.content}"></span></p>
+</div>
 
-<a th:href="@{/editReview/{id}(id = ${review.id})}"><button>edit</button></a>
+<div class="review-buttons">
+    <form class="button-style" th:method="delete">
+        <p class="submit"><input class="cancel-button" type="submit" value="delete"></p>
+    </form>
+
+    <a th:href="@{/editReview/{id}(id = ${review.id})}">
+        <button class="submit-button">edit</button>
+    </a>
+</div>
 
 </body>
 

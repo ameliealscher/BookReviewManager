@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class WebController {
@@ -23,7 +23,7 @@ public class WebController {
     @GetMapping("/")
     ModelAndView index() {
         ModelAndView mav = new ModelAndView("index");
-        mav.addObject("reviews", reviewService.getAll());
+        mav.addObject("top10", bookService.getTop10());;
         return mav;
     }
 
@@ -33,14 +33,17 @@ public class WebController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find review"));
         ModelAndView mav = new ModelAndView("review");
         mav.addObject("review", review);
+        mav.addObject("score", review.getScore());
         return mav;
     }
 
     @GetMapping("/writeReview/{id}")
     String writeReview(Model model, @PathVariable long id) {
         Review review = new Review();
-        review.setBook(bookService.getOne(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find book")));
+        Book book = bookService.getOne(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find book"));
+        review.setBook(book);
         model.addAttribute("review", review);
+        model.addAttribute("bookTitle", book.getTitle());
         return "writeReview";
     }
 
@@ -50,8 +53,8 @@ public class WebController {
 
         review.setPublishedDate(LocalDateTime.now());
         review.setBook(book);
+
         reviewService.createNew(review);
-        book.getReviews().add(review);
 
         ModelAndView mav = new ModelAndView("book");
         mav.addObject("book", book);
@@ -66,21 +69,33 @@ public class WebController {
 
     @GetMapping("/editReview/{id}")
     String editReview(@PathVariable long id, Model model) {
-        model.addAttribute("review", reviewService.getOne(id));
+        Review review = reviewService.getOne(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find review"));
+        model.addAttribute("review", review);
+        model.addAttribute("bookTitle", review.getBook().getTitle());
         return "editReview";
     }
 
     @PostMapping("/editReview/{id}")
     ModelAndView editReview(@PathVariable long id, @ModelAttribute Review review) {
         review.setPublishedDate(LocalDateTime.now());
-        reviewService.change(id, review);
-        return index();
+        review = reviewService.change(id, review);
+
+        ModelAndView mav = new ModelAndView("review");
+        mav.addObject("review", review);
+        return mav;
     }
 
     @GetMapping("/searchBooks")
     String searchBooks(@RequestParam String query, Model model) {
         List<Book> books = bookService.searchBooks(query);
-        model.addAttribute("books", books);
+        List<BookWrapper> bookWrappers = new ArrayList<>();
+
+        for(Book book : books){
+            Double averageScore = bookService.calculateAverageScore(book.getTitle());
+                bookWrappers.add(new BookWrapper(book, averageScore));
+            }
+        model.addAttribute("booksAndScores", bookWrappers);
+
         return "searchBooks";
     }
 

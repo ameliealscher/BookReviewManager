@@ -31,10 +31,6 @@ public class Book {
         return nextId++;
     }
 
-    public static long getNextId() {
-        return nextId;
-    }
-
     public long getId() {
         return id;
     }
@@ -51,23 +47,11 @@ public class Book {
         return reviews;
     }
 
-    public static void setNextId(long nextId) {
-        Book.nextId = nextId;
-    }
-
     public void setId(long id) {
         this.id = id;
     }
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public void setAuthors(List<String> authors) {
-        this.authors = authors;
-    }
-
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
     }
 }

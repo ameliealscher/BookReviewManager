@@ -3,29 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <link rel="stylesheet" href="/css/stylesheet.css">
 </head>
 <body>
 <div th:include="fragments/homeButton.html"></div>
 
-<h2 th:text="${book.title}"></h2>
-<p th:text="${book.authors}"></p>
-<p th:text="${book.id}"></p>
+<div class="container">
+    <a th:href="@{/writeReview/{id}(id=${book.id})}">
+        <button class="write-review-button">write a review</button>
+    </a>
 
+<h2 class="font align" th:text="${book.title}"></h2>
+<p class="font align" th:text="${book.authors}"></p>
+</div>
+
+<br/>
 <div th:each="review : ${book.reviews}">
-    <div>
+    <div class="align">
         <a th:href="@{/review/{id}(id = ${review.id})}">
-            <button>
-                <h2><strong>Score:</strong> <span th:text="${review.score}"></span></h2>
-                <p><strong>Content:</strong> <span th:text="${review.content}"></span></p>
+            <button class="button-content">
+                <h2 class="font">
+                    <span th:each="starNumber : ${#numbers.sequence(1, 5)}">
+                        <span th:if="${review.score >= starNumber}" class="yellow-star">&#9733;</span>
+                        <span th:unless="${review.score >= starNumber}" class="grey-star">&#9733;</span>
+                    </span>
+                </h2>
+                <p><span th:text="${review.content}"></span></p>
             </button>
         </a>
     </div>
-    <hr/>
 </div>
-
-
-<a th:href="@{/writeReview/{id}(id=${book.id})}">
-    <button>write a review</button>
-</a>
 </body>
 </html>

@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <link rel="stylesheet" href="/css/stylesheet.css">
 </head>
 <body>
 <div th:include="fragments/homeButton.html"></div>
-<h2>books</h2>
-<div th:each="book: ${books}" th:include="fragments/book.html"></div>
+<h2 class="big-header">books</h2>
+<div th:each="bookAndScore: ${booksAndScores}" th:include="fragments/book.html"></div>
 </body>
 </html>

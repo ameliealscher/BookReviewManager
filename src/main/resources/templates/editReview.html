@@ -4,14 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Title</title>
+
+    <script src="/js/script.js"></script>
+
+    <link rel="stylesheet" href="/css/stylesheet.css">
 </head>
 <body>
 
 <div th:include="fragments/homeButton.html"></div>
 
-<h2>edit your review</h2>
+<h2 class="font">edit your review for <span th:text="${bookTitle}"></span></h2>
 
-<div th:include="fragments/editingField.html"></div>
+<form action="#" th:action="@{'/editReview/' + ${id}}" th:object="${review}" method="post">
+    <p class="bigger-font">Score: <br/>
+        <span class="star" onclick="setRating(1)">&#9733;</span>
+        <span class="star" onclick="setRating(2)">&#9733;</span>
+        <span class="star" onclick="setRating(3)">&#9733;</span>
+        <span class="star" onclick="setRating(4)">&#9733;</span>
+        <span class="star" onclick="setRating(5)">&#9733;</span>
+        <input type="hidden" id="rating" name="score" th:field="*{score}" />
+    </p>
+    <p class="bigger-font">Content: <br/><input type="text" th:field="*{content}" class="review-content"/></p>
+    <p><input type="submit" value="submit" class="submit-button"/> <a href ="/"><button class="cancel-button">cancel</button></a></p>
+</form>
 
 </body>
 </html>

@@ -5,14 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet" href="css/stylesheet.css">
-
-    <script src="js/code.js"></script>
-
+    <link rel="stylesheet" href="/css/stylesheet.css">
 </head>
 <body>
 
-<div th:include="fragments/searchBar.html"></div>
+
+<form class="search" id="bookSearchForm" th:action="@{/searchBooks}" method="get">
+    <h1 class="big-header">book search</h1>
+    <input class="font search-bar" type="text" id="query" name="query" required>
+    <button class="home-button" type="submit">search</button>
+</form>
+
+<h2 class="big-header">top 10 books</h2>
+<div th:each="bookAndScore: ${top10}" th:include="fragments/book.html"></div>
 
 </body>
 

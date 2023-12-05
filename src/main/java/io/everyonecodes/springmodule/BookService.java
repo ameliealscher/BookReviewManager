@@ -1,11 +1,8 @@
 package io.everyonecodes.springmodule;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Value;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +11,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientException;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.Comparator;
 
 @Service
 public class BookService {
@@ -25,9 +24,6 @@ public class BookService {
         this.webClientBuilder = webClientBuilder;
     }
 
-    @Value("${google.books.api.key}")
-    private String apiKey;
-
     public Optional<Book> getOne(@PathVariable long id) {
         return repository.findById(id);
     }
@@ -37,9 +33,9 @@ public class BookService {
     }
 
     public List<Book> searchBooks(String keyword) {
-            String apiUrl = "https://www.googleapis.com/books/v1/volumes?q=" + keyword + "&key=" + apiKey;
+        List<Book> books = new ArrayList<>();
 
-            List<Book> books = new ArrayList<>();
+        String apiUrl = "https://www.googleapis.com/books/v1/volumes?q=" + keyword;
 
         try {
             JsonNode jsonResponse = webClientBuilder.build()
@@ -52,36 +48,68 @@ public class BookService {
             if (jsonResponse != null) {
                 JsonNode items = jsonResponse.get("items");
 
-                    if (items != null && items.isArray()) {
-                        for (JsonNode item : items) {
-                            JsonNode volumeInfo = item.get("volumeInfo");
-                            String title = volumeInfo.get("title").asText();
+                if (items != null && items.isArray()) {
+                    for (JsonNode item : items) {
+                        JsonNode volumeInfo = item.get("volumeInfo");
+                        String title = volumeInfo.get("title").asText();
 
-                            JsonNode authorsArray = volumeInfo.get("authors");
-                            List<String> authorList = new ArrayList<>();
+                        JsonNode authorsArray = volumeInfo.get("authors");
+                        List<String> authorList = new ArrayList<>();
 
-                            if (authorsArray != null && authorsArray.isArray()) {
-                                for (JsonNode authorNode : authorsArray) {
-                                    authorList.add(authorNode.asText());
-                                }
-                            } else {
-                                String author = volumeInfo.path("authors").asText("N/A");
-                                authorList.add(author);
+                        if (authorsArray != null && authorsArray.isArray()) {
+                            for (JsonNode authorNode : authorsArray) {
+                                authorList.add(authorNode.asText());
                             }
-                            books.add(new Book(title, authorList, List.of()));
+                        } else {
+                            String author = volumeInfo.path("authors").asText("N/A");
+                            authorList.add(author);
                         }
+                        books.add(new Book(title, authorList, List.of()));
                     }
                 }
-            } catch (WebClientException e) {
-                e.printStackTrace();
             }
-
-            for (Book book : books) {
-                if (!repository.findAll().contains(getOneByTitle(book.getTitle()))) {
-                    repository.save(book);
-                }
-            }
-
-            return books;
+        } catch (WebClientException e) {
+            e.printStackTrace();
         }
+
+        for (Book book : books) {
+            if (!repository.existsByTitle(book.getTitle())) {
+                repository.save(book);
+            }
+        }
+
+        return books;
     }
+    public Optional<Double> calculateAverageScore(long id) {
+        Optional<Book> book = repository.findById(id);
+        if(book.isEmpty()){
+            return Optional.empty();
+        }
+        if (book.get().getReviews().isEmpty()) {
+            return Optional.of(0.0);
+        }
+        double totalScore = book.get().getReviews().stream().mapToInt(Review::getScore).sum();
+        return Optional.of(totalScore / book.get().getReviews().size());
+    }
+    public Double calculateAverageScore(String title) {
+        Book book = repository.findByTitle(title);
+        if (book.getReviews().isEmpty()) {
+            return 0.0;
+        }
+        double totalScore = book.getReviews().stream().mapToInt(Review::getScore).sum();
+        int scale = (int) Math.pow(10, 1);
+        return (double) Math.round((totalScore / book.getReviews().size()) * scale) / scale;
+    }
+
+    public List<BookWrapper> getTop10(){
+        List<Book> books = repository.findAll();
+        List<BookWrapper> bookWrappers = new ArrayList<>();
+        for(Book book : books) {
+            bookWrappers.add(new BookWrapper(book, calculateAverageScore(book.getTitle())));
+        }
+        return bookWrappers.stream()
+                .sorted(Comparator.comparingDouble(BookWrapper::getAverageScore).reversed())
+                .limit(10)
+                .collect(Collectors.toList());
+    }
+}

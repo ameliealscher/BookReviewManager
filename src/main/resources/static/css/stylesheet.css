@@ -1,7 +1,190 @@
-.red{
-     color: red;
-  }
-  .centered{
-     max-width: 400px;
-     margin: auto;
-  }
+.hovered {
+    color: color: #CE2029;
+}
+.star {
+    font-size: 30px;
+    color: grey;
+    cursor: pointer;
+}
+.active {
+    color: #CE2029;
+}
+
+.yellow-star {
+    font-size: 30px;
+    color: #CE2029;
+}
+
+.grey-star{
+    font-size: 30px;
+    color: grey;
+}
+
+.review-content {
+    width: 50%;
+    height: 120px;
+    font-size: 18px;
+    font-family: 'Helvetica', Arial, sans-serif;
+    overflow-wrap: break-word;
+    border: 2px solid #FFA6C9;
+    color: #CE2029;
+}
+
+.bigger-font {
+    font-size: 18px;
+    font-family: 'Helvetica', Arial, sans-serif;
+    color: #CE2029;
+}
+
+.font {
+    font-family: 'Helvetica', Arial, sans-serif;
+    color: #CE2029;
+}
+
+.even-bigger-font {
+    font-size: 30px;
+    font-family: 'Helvetica', Arial, sans-serif;
+    color: #CE2029;
+}
+
+.button-container {
+     text-align: left;
+     margin-top: 10px;
+}
+
+.cancel-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.cancel-button{
+     background-color: #CE2029;
+     border: 2px solid #FFA6C9;
+     color: #FFA6C9;
+     padding: 5px 10px;
+     cursor: pointer;
+     height: 35px;
+     width: 60px;
+     margin-left: 10px;
+}
+
+.cancel-button:hover {
+    background-color: #8B0000;
+}
+
+.submit-button {
+    background-color: #FFA6C9;
+    border: 2px solid #CE2029;
+    color: #CE2029;
+    padding: 5px 10px;
+    cursor: pointer;
+    height: 35px;
+    width: 60px;
+    margin-left: 10px;
+}
+
+.submit-button:hover {
+    background-color: #006400;
+}
+
+.square-container {
+    width: 50%;
+    height: 120px;
+    border: 2px solid #000;
+    padding: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow-wrap: break-word;
+}
+
+.review-buttons {
+    text-align: left;
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.button-style {
+    margin-right: 8px;
+}
+
+.big-header {
+    font-size: 35px;
+    text-align: center;
+    font-family: 'Helvetica', Arial, sans-serif;
+    color: #CE2029;
+}
+
+.button-content {
+    background-color: #FFA6C9;
+    border: 2px solid #CE2029;
+    color: #CE2029;
+    margin-bottom: 10px;
+    width: 80%;
+    height: 200px;
+    font-size: 18px;
+    font-family: 'Helvetica', Arial, sans-serif;
+    overflow-wrap: break-word;
+}
+
+.button-content:hover {
+    background-color: #DE5D83;
+}
+
+.align {
+    text-align: center;
+}
+
+.write-review-button {
+    background-color: #FFA6C9;
+    border: 2px solid #CE2029;
+    color: #CE2029;
+    padding: 5px 10px;
+    cursor: pointer;
+    float: right;
+    margin-right: 50px;
+    height: 80px;
+    width: 200px;
+    position: absolute;
+    right: 0;
+}
+
+.write-review-button:hover {
+    background-color: #DE5D83;
+}
+
+.home-button {
+    background-color: #FFA6C9;
+    border: 1px solid #CE2029;
+    color: #CE2029;
+    height: 35px;
+    width: 60px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.home-button:hover {
+    background-color: #DE5D83;
+}
+
+.container {
+    position: relative;
+}
+
+.search-bar {
+    height: 20px;
+    border: 1px solid #CE2029;
+    background-color: #FFA6C9;
+    color: #CE2029;
+    width: 250px;
+}
+
+.search {
+    text-align: center;
+}
