@@ -6,6 +6,8 @@
     <title>Document</title>
 
     <link rel="stylesheet" href="/css/stylesheet.css">
+
+    <script src="/js/script.js"></script>
 </head>
 <body>
 
@@ -27,14 +29,12 @@
 
 <div class="review-buttons">
     <form class="button-style" th:method="delete">
-        <p class="submit"><input class="cancel-button" type="submit" value="delete"></p>
+        <p class="submit" onclick="confirmDelete()"><input class="cancel-button" type="submit" value="delete"></p>
     </form>
 
     <a th:href="@{/editReview/{id}(id = ${review.id})}">
         <button class="submit-button">edit</button>
     </a>
 </div>
-
 </body>
-
 </html>

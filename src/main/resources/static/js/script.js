@@ -44,3 +44,17 @@ function setRating(value) {
 
     clickedStarIndex = finalValue;
 }
+
+ function confirmDelete() {
+        var result = confirm("Are you sure you want to delete this review?");
+        if (result) {
+            document.forms[0].submit();
+        }
+   }
+
+   function confirmCancel() {
+           var result = confirm("Are you sure you want cancel?");
+           if (result) {
+               document.forms[0].submit();
+           }
+      }
