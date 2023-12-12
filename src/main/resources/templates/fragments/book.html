@@ -1,7 +1,7 @@
 <div class="align" th:fragment="book">
     <a class="font" th:href="@{/book/{title}(title=${bookAndScore.book.title})}">
         <button class="button-content">
-            <h2><span class="yellow-star">&#9733; </span><span class="even-bigger-font" th:text="${bookAndScore.averageScore}"></span></h2>
+            <h2><span class="pink-star">&#9733; </span><span class="even-bigger-font" th:text="${bookAndScore.averageScore}"></span></h2>
             <h2 th:text="${bookAndScore.book.title}"></h2>
             <p th:text="${bookAndScore.book.authors}"></p>
         </button>

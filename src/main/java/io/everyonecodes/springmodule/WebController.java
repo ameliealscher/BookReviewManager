@@ -80,8 +80,8 @@ public class WebController {
         review.setPublishedDate(LocalDateTime.now());
         review = reviewService.change(id, review);
 
-        ModelAndView mav = new ModelAndView("review");
-        mav.addObject("review", review);
+        ModelAndView mav = new ModelAndView("book");
+        mav.addObject("book", review.getBook());
         return mav;
     }
 

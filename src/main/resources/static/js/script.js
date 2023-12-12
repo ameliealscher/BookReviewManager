@@ -49,6 +49,8 @@ function setRating(value) {
         var result = confirm("Are you sure you want to delete this review?");
         if (result) {
             document.forms[0].submit();
+        } else {
+            event.preventDefault();
         }
    }
 
@@ -56,5 +58,7 @@ function setRating(value) {
            var result = confirm("Are you sure you want cancel?");
            if (result) {
                document.forms[0].submit();
+           } else {
+                event.preventDefault();
            }
-      }
+   }

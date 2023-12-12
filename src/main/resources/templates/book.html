@@ -25,7 +25,7 @@
             <button class="button-content">
                 <h2 class="font">
                     <span th:each="starNumber : ${#numbers.sequence(1, 5)}">
-                        <span th:if="${review.score >= starNumber}" class="yellow-star">&#9733;</span>
+                        <span th:if="${review.score >= starNumber}" class="pink-star">&#9733;</span>
                         <span th:unless="${review.score >= starNumber}" class="grey-star">&#9733;</span>
                     </span>
                 </h2>

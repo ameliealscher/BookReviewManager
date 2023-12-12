@@ -17,7 +17,7 @@
 
 <h2 class="font"><strong>Score:</strong>
     <span th:each="starNumber : ${#numbers.sequence(1, 5)}">
-        <span th:if="${score >= starNumber}" class="yellow-star">&#9733;</span>
+        <span th:if="${score >= starNumber}" class="pink-star">&#9733;</span>
         <span th:unless="${score >= starNumber}" class="grey-star">&#9733;</span>
     </span>
 </h2>
